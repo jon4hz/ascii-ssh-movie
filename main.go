@@ -32,14 +32,11 @@ const (
 type tickerMsg struct{}
 
 type model struct {
-	term         string
-	width        int
-	height       int
-	file         *os.File
-	scanner      *bufio.Scanner
-	timer        *time.Timer
-	currentFrame string
-	viewport     viewport.Model
+	term     string
+	file     *os.File
+	scanner  *bufio.Scanner
+	timer    *time.Timer
+	viewport viewport.Model
 }
 
 var (
