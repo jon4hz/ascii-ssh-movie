@@ -109,7 +109,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		},
 		file:    f,
 		scanner: scanner,
-		timer:   time.NewTimer(time.Duration(timeout) * time.Millisecond * 100),
+		timer:   time.NewTimer(time.Duration(timeout) * time.Second / 15),
 	}
 	m.viewport.SetContent(firstFrame)
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
@@ -138,7 +138,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		nextFrame, timeout, _ := getAndReplaceTimeFrame(nextRaw)
 		m.viewport.SetContent(nextFrame)
-		m.timer.Reset(time.Duration(timeout) * time.Millisecond * 100)
+		m.timer.Reset(time.Duration(timeout) * time.Second / 15)
 		return m, listenTimer(m.timer.C)
 
 	}

@@ -2,7 +2,9 @@
 version: "3.7"
 services:
   ascii-ssh-movie:
-    image: jon4hz/ascii-ssh-movie
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./.ssh:/app/.ssh
     ports:
