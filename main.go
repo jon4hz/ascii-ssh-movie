@@ -100,7 +100,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		currentFrame: firstFrame,
 		file:         f,
 		scanner:      scanner,
-		timer:        time.NewTimer(time.Duration(timeout) * time.Millisecond),
+		timer:        time.NewTimer(time.Duration(timeout) * time.Millisecond * 100),
 	}
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
 }
