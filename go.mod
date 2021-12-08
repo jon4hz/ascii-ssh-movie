@@ -3,6 +3,7 @@ module github.com/jon4hz/ascii-ssh-movie
 go 1.17
 
 require (
+	github.com/charmbracelet/bubbles v0.9.0
 	github.com/charmbracelet/bubbletea v0.19.1
 	github.com/charmbracelet/wish v0.1.1
 	github.com/gliderlabs/ssh v0.3.3

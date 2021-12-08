@@ -12,13 +12,13 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/accesscontrol"
 	"github.com/charmbracelet/wish/activeterm"
 	bm "github.com/charmbracelet/wish/bubbletea"
 	lm "github.com/charmbracelet/wish/logging"
-	"github.com/charmbracelet/bubbles/viewport"
 	"github.com/gliderlabs/ssh"
 )
 
@@ -39,11 +39,13 @@ type model struct {
 	scanner      *bufio.Scanner
 	timer        *time.Timer
 	currentFrame string
-	viewport 	 viewport.Model
+	viewport     viewport.Model
 }
 
-var intre = regexp.MustCompile(`^([\d]+)`)
-var file string
+var (
+	intre = regexp.MustCompile(`^([\d]+)`)
+	file  string
+)
 
 func main() {
 	if len(os.Args) > 1 {
@@ -105,15 +107,14 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	}
 
 	m := model{
-		term:         pty.Term,
-		viewport:	  viewport.Mode{
+		term: pty.Term,
+		viewport: viewport.Model{
 			Width:  pty.Window.Width,
-			Height:  pty.Window.Height,
-			HighPerformanceRendering: true,
+			Height: pty.Window.Height,
 		},
-		file:         f,
-		scanner:      scanner,
-		timer:        time.NewTimer(time.Duration(timeout) * time.Millisecond * 100),
+		file:    f,
+		scanner: scanner,
+		timer:   time.NewTimer(time.Duration(timeout) * time.Millisecond * 100),
 	}
 	m.viewport.SetContent(firstFrame)
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
