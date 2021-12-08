@@ -1,0 +1,14 @@
+---
+version: "3.7"
+services:
+  ascii-ssh-movie:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./.ssh:/app/.ssh
+    ports:
+      - "22:2222"
+    command: ./data/rick_roll.txt
+...
