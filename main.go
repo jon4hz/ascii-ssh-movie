@@ -32,7 +32,6 @@ const (
 type tickerMsg struct{}
 
 type model struct {
-	term     string
 	file     *os.File
 	scanner  *bufio.Scanner
 	timer    *time.Timer
@@ -104,7 +103,6 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	}
 
 	m := model{
-		term: pty.Term,
 		viewport: viewport.Model{
 			Width:  pty.Window.Width,
 			Height: pty.Window.Height,
