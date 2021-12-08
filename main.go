@@ -18,6 +18,7 @@ import (
 	"github.com/charmbracelet/wish/activeterm"
 	bm "github.com/charmbracelet/wish/bubbletea"
 	lm "github.com/charmbracelet/wish/logging"
+	"github.com/charmbracelet/bubbles/viewport"
 	"github.com/gliderlabs/ssh"
 )
 
@@ -28,11 +29,21 @@ const (
 	defaultFile = "./data/short_intro.txt"
 )
 
-var file string
-
 type tickerMsg struct{}
 
+type model struct {
+	term         string
+	width        int
+	height       int
+	file         *os.File
+	scanner      *bufio.Scanner
+	timer        *time.Timer
+	currentFrame string
+	viewport 	 viewport.Model
+}
+
 var intre = regexp.MustCompile(`^([\d]+)`)
+var file string
 
 func main() {
 	if len(os.Args) > 1 {
@@ -95,24 +106,17 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 
 	m := model{
 		term:         pty.Term,
-		width:        pty.Window.Width,
-		height:       pty.Window.Height,
-		currentFrame: firstFrame,
+		viewport:	  viewport.Mode{
+			Width:  pty.Window.Width,
+			Height:  pty.Window.Height,
+			HighPerformanceRendering: true,
+		},
 		file:         f,
 		scanner:      scanner,
 		timer:        time.NewTimer(time.Duration(timeout) * time.Millisecond * 100),
 	}
+	m.viewport.SetContent(firstFrame)
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
-}
-
-type model struct {
-	term         string
-	width        int
-	height       int
-	file         *os.File
-	scanner      *bufio.Scanner
-	timer        *time.Timer
-	currentFrame string
 }
 
 func (m model) Init() tea.Cmd {
@@ -122,8 +126,8 @@ func (m model) Init() tea.Cmd {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
-		m.height = msg.Height
-		m.width = msg.Width
+		m.viewport.Height = msg.Height
+		m.viewport.Width = msg.Width
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "q", "ctrl+c":
@@ -137,7 +141,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		}
 		nextFrame, timeout, _ := getAndReplaceTimeFrame(nextRaw)
-		m.currentFrame = nextFrame
+		m.viewport.SetContent(nextFrame)
 		m.timer.Reset(time.Duration(timeout) * time.Millisecond * 100)
 		return m, listenTimer(m.timer.C)
 
@@ -146,7 +150,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	return m.currentFrame
+	return m.viewport.View()
 }
 
 func listenTimer(c <-chan time.Time) tea.Cmd {
