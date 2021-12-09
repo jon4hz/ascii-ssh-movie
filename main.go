@@ -23,10 +23,11 @@ import (
 )
 
 const (
-	host        = ""
-	port        = 2222
-	bufHeight   = 14
-	defaultFile = "./data/short_intro.txt"
+	host         = ""
+	port         = 2222
+	bufHeight    = 14
+	defaultFile  = "./data/short_intro.txt"
+	starWarsFile = "./data/sw1.txt"
 )
 
 type tickerMsg struct{}
@@ -87,7 +88,12 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 
-	f, err := os.Open(file)
+	currentFile := file
+	if s.User() == "starwars" {
+		currentFile = starWarsFile
+	}
+
+	f, err := os.Open(currentFile)
 	if err != nil {
 		log.Fatal(err)
 	}
