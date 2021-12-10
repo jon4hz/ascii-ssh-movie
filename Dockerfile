@@ -15,5 +15,5 @@ FROM alpine:latest
 
 WORKDIR /app
 COPY --from=builder /app/ascii-ssh-movie .
-ADD data ./data
+COPY data ./data
 ENTRYPOINT [ "./ascii-ssh-movie" ]
