@@ -16,12 +16,12 @@
                                                                   
                                                                   
   Original Work: Simon Jansen ( http://www.asciimation.co.nz/ )   
-  Telnetification                                                 
-  & Player     : Martin W. Kirst                                  
-                 https://github.com/nitram509/ascii-telnet-server 
+  sshification                                                 
+  & Player     : jon4hz                                  
+                 https://github.com/jon4hz/ascii-ssh-movie 
                                                                   
   The hard work was done by Simon,                                
-  I just wrote the telnet player                                  
+  I just wrote the ssh player using bubbletea & wish                                  
   and placed it online using Simon's movie sources.               
                                                                   
                                                                   
