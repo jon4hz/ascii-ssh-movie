@@ -1,3 +1,8 @@
 # ascii-ssh-movie
 
-[![asciicast](https://asciinema.org/a/464351.svg)](https://asciinema.org/a/464351)
+![demo](.github/assets/demo.gif)
+
+## Watch for yourself!
+```
+> ssh hi.jon4hz.io -l starwars
+```
