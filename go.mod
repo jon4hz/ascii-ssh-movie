@@ -1,6 +1,6 @@
 module github.com/jon4hz/ascii-ssh-movie
 
-go 1.17
+go 1.20
 
 require (
 	github.com/charmbracelet/bubbles v0.15.0
