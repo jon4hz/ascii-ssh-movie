@@ -5,5 +5,5 @@
 
 ## Watch for yourself!
 ```
-> ssh hi.jon4hz.io -l starwars
+> ssh hi.jon4hz.io
 ```
