@@ -46,7 +46,7 @@ jobs:
             type=semver,event=tag,pattern={{version}}
             type=semver,event=tag,pattern={{major}}.{{minor}}
             type=ref,event=pr
-      - 
+      -
         name: Build and push the image
         uses: docker/build-push-action@v4
         with:
